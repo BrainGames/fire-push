@@ -23,10 +23,8 @@ func NewFirebaseClient(key string, timeToLive int, color, sound string) *firebas
 func (fc *firebaseClient) SendData(recipientKey, title, body, image string, badge int) (*http.Response, error) {
 	payload := &payload{}
 	payload.To = recipientKey
-	payload.Data.Title = title
-	payload.Data.Body = body
-	payload.Data.Image = image
-	payload.Data.Badge = badge
+	pd := &PayloadData{Title: title, Body: body, Image:image, Badge: badge}
+	payload.Data = pd
 	p, _ := json.Marshal(payload)
 	c := &http.Client{}
 	req, _ := http.NewRequest("POST", "https://fcm.googleapis.com/fcm/send", bytes.NewReader(p))
