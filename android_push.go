@@ -17,12 +17,13 @@ func NewAndroidClient (key string) *androidClient {
 func (ac *androidClient) SetTimeToLive(value int64) {
 	ac.timeToLive = value
 }
-func (ac *androidClient) Send (recipientKey, title, body, image string) (*http.Response, error){
+func (ac *androidClient) Send (recipientKey, title, body, image string, badge int) (*http.Response, error){
 	payload := &androidPayload{}
 	payload.To = recipientKey
 	payload.Data.Title = title
 	payload.Data.Body = body
 	payload.Data.Image = image
+	payload.Data.Badge = badge
 	p, _ := json.Marshal(payload)
 	c := &http.Client{}
 	req, _ := http.NewRequest("POST", "https://fcm.googleapis.com/fcm/send", bytes.NewReader(p))
@@ -43,5 +44,6 @@ type androidPayload struct {
 		Title string `json:"title"`
 		Body string `json:"body"`
 		Image string `json:"image"`
+		Badge int `json:"badge"`
 	} `json:"data"`
 }
