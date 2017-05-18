@@ -23,7 +23,7 @@ func NewFirebaseClient(key string, timeToLive int, color, sound string) *firebas
 func (fc *firebaseClient) SendData(recipientKey, title, body, image string, badge int) (*http.Response, error) {
 	payload := &payload{}
 	payload.To = recipientKey
-	pd := &PayloadData{Title: title, Body: body, Image:image, Badge: badge}
+	pd := &PayloadData{Title: title, Body: body, Image:image, Badge: badge, Color: fc.color, Sound: fc.sound}
 	payload.Data = pd
 	p, _ := json.Marshal(payload)
 	c := &http.Client{}
@@ -48,18 +48,22 @@ type PayloadData struct {
 	Body  string `json:"body"`
 	Image string `json:"image"`
 	Badge int    `json:"badge"`
+	Color string `json:"color"`
+	Sound string `json:"sound"`
 }
 
 type PayloadNotification struct {
 	Title string `json:"title"`
 	Body  string `json:"body"`
 	Badge int    `json:"badge"`
+	Color string `json:"color"`
+	Sound string `json:"sound"`
 }
 
 func (fc *firebaseClient) SendNotification(recipientKey, title, body string, badge int) (*http.Response, error) {
 	payload := &payload{}
 	payload.To = recipientKey
-	pn := &PayloadNotification{Title: title, Body: body, Badge: badge}
+	pn := &PayloadNotification{Title: title, Body: body, Badge: badge, Color: fc.color, Sound: fc.sound}
 	payload.Notification = pn
 	p, _ := json.Marshal(payload)
 	c := &http.Client{}
