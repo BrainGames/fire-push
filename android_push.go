@@ -40,8 +40,8 @@ func (fc *firebaseClient) SendData(recipientKey, title, body, image string, badg
 
 type payload struct {
 	To           string               `json:"to"`
-	Data         *PayloadData         `json:"data"`
-	Notification *PayloadNotification `json:"notification"`
+	Data         *PayloadData         `json:"data,omitempty"`
+	Notification *PayloadNotification `json:"notification,omitempty"`
 }
 type PayloadData struct {
 	Title string `json:"title"`
